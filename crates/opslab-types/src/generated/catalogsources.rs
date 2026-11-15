@@ -99,6 +99,9 @@ pub struct CatalogSourceStatus {
     /// Packages listed by the index.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub packages: Option<Vec<CatalogSourceStatusPackages>>,
+    /// Signer is the identity that signed the last verified index, if any.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub signer: Option<String>,
 }
 
 /// CatalogEntry describes one package of a catalog.
