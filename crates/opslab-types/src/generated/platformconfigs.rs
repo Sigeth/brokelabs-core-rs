@@ -32,6 +32,15 @@ pub struct PlatformConfigSpec {
         rename = "allowedEgress"
     )]
     pub allowed_egress: Option<PlatformConfigAllowedEgress>,
+    /// AllowedExtraManifestKinds lists the kinds ("Kind" or "Kind.group")
+    /// extraManifests may create. Empty allows DefaultExtraManifestKinds; "*"
+    /// allows every namespaced kind.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "allowedExtraManifestKinds"
+    )]
+    pub allowed_extra_manifest_kinds: Option<Vec<String>>,
     /// AllowedRuntimes restricts the runtimes challenges may use. Empty allows
     /// every runtime the cluster supports.
     #[serde(
@@ -47,6 +56,14 @@ pub struct PlatformConfigSpec {
         rename = "maxInstanceLifetime"
     )]
     pub max_instance_lifetime: Option<String>,
+    /// MaxInstanceResources caps the CPU and memory the machines of one
+    /// instance may request. Empty fields set no cap.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "maxInstanceResources"
+    )]
+    pub max_instance_resources: Option<PlatformConfigMaxInstanceResources>,
     /// RegistryMirror is the in-cluster registry installed challenges and
     /// their images are mirrored to, e.g. "zot.opslab-system.svc:5000".
     #[serde(
@@ -66,6 +83,18 @@ pub enum PlatformConfigAllowedEgress {
     Internet,
     #[serde(rename = "allowlist")]
     Allowlist,
+}
+
+/// MaxInstanceResources caps the CPU and memory the machines of one
+/// instance may request. Empty fields set no cap.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+pub struct PlatformConfigMaxInstanceResources {
+    /// CPU requested by the machines of one instance.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub cpu: Option<IntOrString>,
+    /// Memory requested by the machines of one instance.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub memory: Option<IntOrString>,
 }
 
 /// PlatformConfigStatus reports what the cluster can run.

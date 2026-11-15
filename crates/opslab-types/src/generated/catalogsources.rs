@@ -5,6 +5,7 @@
 #[allow(unused_imports)]
 mod prelude {
     pub use k8s_openapi::apimachinery::pkg::apis::meta::v1::Condition;
+    pub use k8s_openapi::apimachinery::pkg::util::intstr::IntOrString;
     pub use kube::CustomResource;
     pub use serde::{Deserialize, Serialize};
 }
@@ -152,10 +153,65 @@ pub enum CatalogSourceStatusPackagesDifficulty {
 /// CatalogVersion is one published version of a package.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct CatalogSourceStatusPackagesVersions {
+    /// Permissions the package needs, derived from it when the index was
+    /// built. The operator derives them again at install and refuses a package
+    /// whose permissions differ.
+    pub permissions: CatalogSourceStatusPackagesVersionsPermissions,
     /// Ref is the OCI reference of the package, pinned by digest
     /// (registry/repository@sha256:...).
     #[serde(rename = "ref")]
     pub r#ref: String,
     /// Version (semver).
     pub version: String,
+}
+
+/// Permissions the package needs, derived from it when the index was
+/// built. The operator derives them again at install and refuses a package
+/// whose permissions differ.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+pub struct CatalogSourceStatusPackagesVersionsPermissions {
+    /// CheckerImage is the custom checker, which runs with access to the
+    /// machines of the instance.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "checkerImage"
+    )]
+    pub checker_image: Option<String>,
+    /// CPU requested by the machines of one instance.
+    pub cpu: IntOrString,
+    /// Egress is the outbound network access of an instance.
+    pub egress: CatalogSourceStatusPackagesVersionsPermissionsEgress,
+    /// EgressAllowlist lists the host names reachable when egress is "allowlist".
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "egressAllowlist"
+    )]
+    pub egress_allowlist: Option<Vec<String>>,
+    /// ExtraManifestKinds are the kinds created in the instance namespace by
+    /// extraManifests, as "Kind" (core group) or "Kind.group", sorted.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "extraManifestKinds"
+    )]
+    pub extra_manifest_kinds: Option<Vec<String>>,
+    /// Memory requested by the machines of one instance.
+    pub memory: IntOrString,
+    /// Runtimes used by the machines, sorted.
+    pub runtimes: Vec<String>,
+}
+
+/// Permissions the package needs, derived from it when the index was
+/// built. The operator derives them again at install and refuses a package
+/// whose permissions differ.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+pub enum CatalogSourceStatusPackagesVersionsPermissionsEgress {
+    #[serde(rename = "none")]
+    None,
+    #[serde(rename = "internet")]
+    Internet,
+    #[serde(rename = "allowlist")]
+    Allowlist,
 }

@@ -690,6 +690,9 @@ pub struct ChallengeStatus {
     /// Package is the resolved and validated manifest.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub package: Option<ChallengeStatusPackage>,
+    /// Permissions the installed package needs, derived from it.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub permissions: Option<ChallengeStatusPermissions>,
     /// Runnable is true when the cluster supports everything the challenge needs.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub runnable: Option<bool>,
@@ -1248,4 +1251,51 @@ pub enum ChallengeStatusPackageSpecValidationMode {
     OnDemand,
     #[serde(rename = "auto")]
     Auto,
+}
+
+/// Permissions the installed package needs, derived from it.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+pub struct ChallengeStatusPermissions {
+    /// CheckerImage is the custom checker, which runs with access to the
+    /// machines of the instance.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "checkerImage"
+    )]
+    pub checker_image: Option<String>,
+    /// CPU requested by the machines of one instance.
+    pub cpu: IntOrString,
+    /// Egress is the outbound network access of an instance.
+    pub egress: ChallengeStatusPermissionsEgress,
+    /// EgressAllowlist lists the host names reachable when egress is "allowlist".
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "egressAllowlist"
+    )]
+    pub egress_allowlist: Option<Vec<String>>,
+    /// ExtraManifestKinds are the kinds created in the instance namespace by
+    /// extraManifests, as "Kind" (core group) or "Kind.group", sorted.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "extraManifestKinds"
+    )]
+    pub extra_manifest_kinds: Option<Vec<String>>,
+    /// Memory requested by the machines of one instance.
+    pub memory: IntOrString,
+    /// Runtimes used by the machines, sorted.
+    pub runtimes: Vec<String>,
+}
+
+/// Permissions the installed package needs, derived from it.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+pub enum ChallengeStatusPermissionsEgress {
+    #[serde(rename = "none")]
+    None,
+    #[serde(rename = "internet")]
+    Internet,
+    #[serde(rename = "allowlist")]
+    Allowlist,
 }
