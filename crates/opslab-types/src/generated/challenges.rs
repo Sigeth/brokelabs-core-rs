@@ -347,12 +347,19 @@ pub struct ChallengeSourceInlinePackageSpecTasks {
     /// uses a custom checker image.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub check: Option<ChallengeSourceInlinePackageSpecTasksCheck>,
+    /// Guard marks a task that is true from the start and must stay true,
+    /// e.g. "you can still log in with your key": it fails when the student
+    /// breaks something while solving the others. Guards are worth 0 points,
+    /// and "opslab challenge test" expects them to pass before and after the
+    /// solution.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub guard: Option<bool>,
     /// Hints the student can reveal, in order.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub hints: Option<Vec<ChallengeSourceInlinePackageSpecTasksHints>>,
     /// ID of the task, unique in the package (DNS-1123 label).
     pub id: String,
-    /// Points awarded when the task is solved.
+    /// Points awarded when the task is solved. Guards have none.
     pub points: i32,
     /// Title shown to the student.
     pub title: String,
@@ -980,12 +987,19 @@ pub struct ChallengeStatusPackageSpecTasks {
     /// uses a custom checker image.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub check: Option<ChallengeStatusPackageSpecTasksCheck>,
+    /// Guard marks a task that is true from the start and must stay true,
+    /// e.g. "you can still log in with your key": it fails when the student
+    /// breaks something while solving the others. Guards are worth 0 points,
+    /// and "opslab challenge test" expects them to pass before and after the
+    /// solution.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub guard: Option<bool>,
     /// Hints the student can reveal, in order.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub hints: Option<Vec<ChallengeStatusPackageSpecTasksHints>>,
     /// ID of the task, unique in the package (DNS-1123 label).
     pub id: String,
-    /// Points awarded when the task is solved.
+    /// Points awarded when the task is solved. Guards have none.
     pub points: i32,
     /// Title shown to the student.
     pub title: String,
