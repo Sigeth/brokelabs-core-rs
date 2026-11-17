@@ -1,6 +1,6 @@
 [package]
-name = "opslab-auth"
-description = "Short-lived access tokens minted by the opslab api and verified by the gateway"
+name = "brokelabs-auth"
+description = "Short-lived access tokens minted by the BrokeLabs api and verified by the gateway"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true

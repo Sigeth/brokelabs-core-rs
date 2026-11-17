@@ -1,7 +1,7 @@
-//! Rust types of the opslab custom resources.
+//! Rust types of the BrokeLabs custom resources.
 //!
 //! Everything under [`generated`] is produced by `scripts/generate.sh` from the
-//! CRDs of [opslab-core-go](https://github.com/Sigeth/opslab-core-go), the
+//! CRDs of [brokelabs-core-go](https://github.com/Sigeth/brokelabs-core-go), the
 //! source of truth. Never edit it by hand: change the Go types, tag core-go,
 //! bump `CORE_GO_VERSION` and regenerate.
 //!
@@ -18,23 +18,23 @@ pub use generated::checkruns::CheckRun;
 pub use generated::platformconfigs::PlatformConfig;
 
 /// Identifiers that change when the project is renamed. Mirrors
-/// `pkg/project` in opslab-core-go.
+/// `pkg/project` in brokelabs-core-go.
 pub mod project {
-    /// The (working) project name.
-    pub const NAME: &str = "opslab";
-    /// Kubernetes API group of all opslab resources.
-    pub const API_GROUP: &str = "opslab.io";
+    /// The project name in identifiers.
+    pub const NAME: &str = "brokelabs";
+    /// Kubernetes API group of all BrokeLabs resources.
+    pub const API_GROUP: &str = "brokelabs.io";
     /// API version of the resources in this crate.
-    pub const API_VERSION: &str = "opslab.io/v1alpha1";
-    /// Prefix of every label and annotation set by opslab.
-    pub const LABEL_PREFIX: &str = "opslab.io/";
+    pub const API_VERSION: &str = "brokelabs.io/v1alpha1";
+    /// Prefix of every label and annotation set by BrokeLabs.
+    pub const LABEL_PREFIX: &str = "brokelabs.io/";
     /// Namespace holding ChallengeInstances and CheckRuns.
-    pub const INSTANCES_NAMESPACE: &str = "opslab-instances";
+    pub const INSTANCES_NAMESPACE: &str = "brokelabs-instances";
     /// Name of the only PlatformConfig.
     pub const PLATFORM_CONFIG_NAME: &str = "default";
 }
 
-/// Conventions shared with opslab-core-go that are not part of the CRDs.
+/// Conventions shared with brokelabs-core-go that are not part of the CRDs.
 pub mod conventions {
     /// Container running a pod or sysbox machine, inside the pod named by
     /// the machine status. Mirrors `v1alpha1.MachineContainer`.
@@ -50,7 +50,7 @@ pub mod conventions {
     pub const STUDENT_USER: &str = "student";
     /// Secret of an instance namespace holding its SSH material. Mirrors
     /// `v1alpha1.SSHSecret`.
-    pub const SSH_SECRET: &str = "opslab-ssh";
+    pub const SSH_SECRET: &str = "brokelabs-ssh";
     /// Key of [`SSH_SECRET`] holding the student's private key (OpenSSH PEM).
     /// Mirrors `v1alpha1.SSHSecretStudentKey`.
     pub const SSH_SECRET_STUDENT_KEY: &str = "student";
@@ -110,7 +110,7 @@ mod tests {
     #[test]
     fn deserializes_status() {
         let instance: ChallengeInstance = serde_json::from_value(serde_json::json!({
-            "apiVersion": "opslab.io/v1alpha1",
+            "apiVersion": "brokelabs.io/v1alpha1",
             "kind": "ChallengeInstance",
             "metadata": {"name": "x", "namespace": project::INSTANCES_NAMESPACE},
             "spec": {"challenge": "hello-shell", "owner": {"userID": "1"}},

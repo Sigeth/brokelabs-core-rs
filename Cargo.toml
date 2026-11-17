@@ -7,7 +7,7 @@ version = "0.1.0"
 edition = "2024"
 rust-version = "1.89"
 license = "MIT"
-repository = "https://github.com/Sigeth/opslab-core-rs"
+repository = "https://github.com/Sigeth/brokelabs-core-rs"
 
 [workspace.lints.rust]
 unsafe_code = "forbid"

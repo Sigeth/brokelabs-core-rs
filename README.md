@@ -1,11 +1,11 @@
-# opslab-core-rs
+# brokelabs-core-rs
 
-Rust crates shared by the opslab (working name) [api](https://github.com/Sigeth/opslab-api) and [gateway](https://github.com/Sigeth/opslab-gateway).
+Rust crates shared by the BrokeLabs [api](https://github.com/Sigeth/brokelabs-api) and [gateway](https://github.com/Sigeth/brokelabs-gateway).
 
 | Crate | What |
 |---|---|
-| `opslab-types` | Rust types of the opslab custom resources (`Challenge`, `ChallengeInstance`, `CheckRun`…), **generated** with [kopium](https://github.com/kube-rs/kopium) from the CRDs of [opslab-core-go](https://github.com/Sigeth/opslab-core-go), which is the source of truth. |
-| `opslab-auth` | Short-lived EdDSA access tokens: the api mints them (`Signer`) and publishes a JWKS document, the gateway verifies them (`Verifier`). |
+| `brokelabs-types` | Rust types of the BrokeLabs custom resources (`Challenge`, `ChallengeInstance`, `CheckRun`…), **generated** with [kopium](https://github.com/kube-rs/kopium) from the CRDs of [brokelabs-core-go](https://github.com/Sigeth/brokelabs-core-go), which is the source of truth. |
+| `brokelabs-auth` | Short-lived EdDSA access tokens: the api mints them (`Signer`) and publishes a JWKS document, the gateway verifies them (`Verifier`). |
 
 ## Usage
 
@@ -13,9 +13,9 @@ The crates are not on crates.io yet. Depend on them by tag:
 
 ```toml
 [dependencies]
-opslab-types = { git = "https://github.com/Sigeth/opslab-core-rs", tag = "v0.1.0" }
-opslab-auth = { git = "https://github.com/Sigeth/opslab-core-rs", tag = "v0.1.0" }
-# opslab-types needs exactly one Kubernetes version feature, chosen by the binary:
+brokelabs-types = { git = "https://github.com/Sigeth/brokelabs-core-rs", tag = "v0.8.0" }
+brokelabs-auth = { git = "https://github.com/Sigeth/brokelabs-core-rs", tag = "v0.8.0" }
+# brokelabs-types needs exactly one Kubernetes version feature, chosen by the binary:
 k8s-openapi = { version = "0.29", features = ["v1_34"] }
 ```
 
@@ -35,7 +35,7 @@ make generate-local    # from ../core-go, while developing a contract change
 make lint test deny
 ```
 
-`deny.toml` only allows MIT-compatible licenses. It also ignores two advisories, each with its reason. Both affect RSA/ECDSA code that `jsonwebtoken` compiles in but that opslab never uses: `Verifier` only accepts EdDSA, and a test checks that.
+`deny.toml` only allows MIT-compatible licenses. It also ignores two advisories, each with its reason. Both affect RSA/ECDSA code that `jsonwebtoken` compiles in but that BrokeLabs never uses: `Verifier` only accepts EdDSA, and a test checks that.
 
 ## License
 

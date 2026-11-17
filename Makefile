@@ -2,11 +2,11 @@
 
 all: lint test deny
 
-## generate: regenerate opslab-types from the core-go tag in CORE_GO_VERSION
+## generate: regenerate brokelabs-types from the core-go tag in CORE_GO_VERSION
 generate:
 	scripts/generate.sh
 
-## generate-local: regenerate opslab-types from a local core-go checkout
+## generate-local: regenerate brokelabs-types from a local core-go checkout
 generate-local:
 	CORE_GO_DIR=$(or $(CORE_GO_DIR),../core-go) scripts/generate.sh
 
@@ -22,4 +22,4 @@ deny:
 
 ## verify-generated: fail if generated types differ from the pinned core-go tag (CI)
 verify-generated: generate
-	git diff --exit-code -- crates/opslab-types/src/generated
+	git diff --exit-code -- crates/brokelabs-types/src/generated

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Regenerates crates/opslab-types/src/generated from the CRDs of opslab-core-go.
+# Regenerates crates/brokelabs-types/src/generated from the CRDs of brokelabs-core-go.
 #
 #   scripts/generate.sh                 # CRDs of the core-go tag in CORE_GO_VERSION
 #   CORE_GO_DIR=../core-go scripts/generate.sh   # CRDs of a local checkout (development)
@@ -9,7 +9,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 OWNER="Sigeth"
-OUT="crates/opslab-types/src/generated"
+OUT="crates/brokelabs-types/src/generated"
 version="$(tr -d '[:space:]' < CORE_GO_VERSION)"
 
 crds="$(mktemp -d)"
@@ -19,21 +19,21 @@ if [[ -n "${CORE_GO_DIR:-}" ]]; then
   cp "$CORE_GO_DIR"/crds/*.yaml "$crds/"
   echo "using CRDs from $CORE_GO_DIR"
 else
-  curl -fsSL "https://codeload.github.com/$OWNER/opslab-core-go/tar.gz/refs/tags/$version" \
+  curl -fsSL "https://codeload.github.com/$OWNER/brokelabs-core-go/tar.gz/refs/tags/$version" \
     | tar -xz -C "$crds" --strip-components=2 --wildcards '*/crds/*.yaml'
-  echo "using CRDs from opslab-core-go $version"
+  echo "using CRDs from brokelabs-core-go $version"
 fi
 
 mkdir -p "$OUT"
 find "$OUT" -name '*.rs' -delete
 modules=()
 for crd in "$crds"/*.yaml; do
-  # opslab.io_challengeinstances.yaml -> challengeinstances
+  # brokelabs.io_challengeinstances.yaml -> challengeinstances
   module="$(basename "$crd" .yaml)"
   module="${module#*_}"
   modules+=("$module")
   kopium --docs --derive PartialEq -f "$crd" \
-    | sed "s|^// kopium command: .*|// source: opslab-core-go crds/$(basename "$crd")|" \
+    | sed "s|^// kopium command: .*|// source: brokelabs-core-go crds/$(basename "$crd")|" \
     > "$OUT/$module.rs"
 done
 

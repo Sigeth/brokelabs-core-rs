@@ -45,6 +45,29 @@ dependencies = [
 ]
 
 [[package]]
+name = "brokelabs-auth"
+version = "0.1.0"
+dependencies = [
+ "ed25519-dalek 3.0.0",
+ "getrandom 0.3.4",
+ "jsonwebtoken",
+ "serde",
+ "serde_json",
+ "thiserror",
+ "uuid",
+]
+
+[[package]]
+name = "brokelabs-types"
+version = "0.1.0"
+dependencies = [
+ "k8s-openapi",
+ "kube",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "bumpalo"
 version = "3.20.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -714,29 +737,6 @@ checksum = "071dfc062690e90b734c0b2273ce72ad0ffa95f0c74596bc250dcfd960262841"
 dependencies = [
  "autocfg",
  "libm",
-]
-
-[[package]]
-name = "opslab-auth"
-version = "0.1.0"
-dependencies = [
- "ed25519-dalek 3.0.0",
- "getrandom 0.3.4",
- "jsonwebtoken",
- "serde",
- "serde_json",
- "thiserror",
- "uuid",
-]
-
-[[package]]
-name = "opslab-types"
-version = "0.1.0"
-dependencies = [
- "k8s-openapi",
- "kube",
- "serde",
- "serde_json",
 ]
 
 [[package]]

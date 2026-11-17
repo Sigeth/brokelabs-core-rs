@@ -7,12 +7,12 @@
 //!
 //! ```
 //! use std::time::{Duration, SystemTime};
-//! use opslab_auth::{AccessGrant, AccessKind, Signer, Verifier};
+//! use brokelabs_auth::{AccessGrant, AccessKind, Signer, Verifier};
 //!
 //! let signer = Signer::generate()?;
 //! let grant = AccessGrant {
 //!     user_id: "42".into(),
-//!     instance: "opslab-instances/hello-shell-alice".into(),
+//!     instance: "brokelabs-instances/hello-shell-alice".into(),
 //!     machine: "box".into(),
 //!     kind: AccessKind::Terminal { user: "student".into() },
 //! };
@@ -21,7 +21,7 @@
 //! let verifier = Verifier::from_jwks(&signer.jwks())?;
 //! let claims = verifier.verify(&token)?;
 //! assert_eq!(claims.grant, grant);
-//! # Ok::<(), opslab_auth::Error>(())
+//! # Ok::<(), brokelabs_auth::Error>(())
 //! ```
 
 use std::collections::HashMap;
@@ -39,9 +39,9 @@ use serde::{Deserialize, Serialize};
 pub use jsonwebtoken::jwk::JwkSet;
 
 /// Issuer of every access token.
-pub const ISSUER: &str = "opslab-api";
+pub const ISSUER: &str = "brokelabs-api";
 /// Audience of tokens accepted by the gateway.
-pub const AUDIENCE_GATEWAY: &str = "opslab-gateway";
+pub const AUDIENCE_GATEWAY: &str = "brokelabs-gateway";
 /// Recommended lifetime: just long enough to open a connection.
 pub const DEFAULT_TTL: Duration = Duration::from_secs(120);
 /// Clock skew tolerated when verifying, in seconds.
@@ -236,7 +236,7 @@ mod tests {
     fn grant() -> AccessGrant {
         AccessGrant {
             user_id: "42".into(),
-            instance: "opslab-instances/ssh-alice".into(),
+            instance: "brokelabs-instances/ssh-alice".into(),
             machine: "server".into(),
             kind: AccessKind::Web { port: 8080 },
         }
@@ -263,7 +263,7 @@ mod tests {
         let json = serde_json::to_value(grant()).unwrap();
         assert_eq!(
             json,
-            serde_json::json!({"sub": "42", "instance": "opslab-instances/ssh-alice", "machine": "server", "access": "web", "port": 8080})
+            serde_json::json!({"sub": "42", "instance": "brokelabs-instances/ssh-alice", "machine": "server", "access": "web", "port": 8080})
         );
     }
 

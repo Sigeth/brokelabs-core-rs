@@ -1,6 +1,6 @@
 [package]
-name = "opslab-types"
-description = "Rust types of the opslab custom resources, generated from opslab-core-go"
+name = "brokelabs-types"
+description = "Rust types of the BrokeLabs custom resources, generated from brokelabs-core-go"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
