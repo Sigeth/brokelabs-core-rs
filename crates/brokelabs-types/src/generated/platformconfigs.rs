@@ -155,8 +155,8 @@ pub struct PlatformConfigStatusRuntimes {
 pub enum PlatformConfigStatusRuntimesRuntime {
     #[serde(rename = "pod")]
     Pod,
-    #[serde(rename = "sysbox")]
-    Sysbox,
+    #[serde(rename = "userns")]
+    Userns,
     #[serde(rename = "vcluster")]
     Vcluster,
     #[serde(rename = "vm")]

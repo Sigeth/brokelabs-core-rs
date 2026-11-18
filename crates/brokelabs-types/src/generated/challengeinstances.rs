@@ -100,7 +100,7 @@ pub struct ChallengeInstanceStatusMachines {
     pub address: Option<String>,
     /// Name of the machine.
     pub name: String,
-    /// Pod running the machine, in the instance namespace (pod and sysbox
+    /// Pod running the machine, in the instance namespace (pod and userns
     /// runtimes). Terminals and checks exec into its MachineContainer.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub pod: Option<String>,
@@ -115,8 +115,8 @@ pub struct ChallengeInstanceStatusMachines {
 pub enum ChallengeInstanceStatusMachinesRuntime {
     #[serde(rename = "pod")]
     Pod,
-    #[serde(rename = "sysbox")]
-    Sysbox,
+    #[serde(rename = "userns")]
+    Userns,
     #[serde(rename = "vcluster")]
     Vcluster,
     #[serde(rename = "vm")]

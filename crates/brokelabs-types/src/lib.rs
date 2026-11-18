@@ -36,7 +36,7 @@ pub mod project {
 
 /// Conventions shared with brokelabs-core-go that are not part of the CRDs.
 pub mod conventions {
-    /// Container running a pod or sysbox machine, inside the pod named by
+    /// Container running a pod or userns machine, inside the pod named by
     /// the machine status. Mirrors `v1alpha1.MachineContainer`.
     pub const MACHINE_CONTAINER: &str = "machine";
     /// Instructions shown when no other language matches. Mirrors

@@ -249,7 +249,7 @@ pub struct ChallengeSourceInlinePackageSpecLifetime {
 /// cluster or virtual machine).
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct ChallengeSourceInlinePackageSpecMachines {
-    /// Image is a container image (pod, sysbox) or a KubeVirt containerDisk
+    /// Image is a container image (pod, userns) or a KubeVirt containerDisk
     /// image (vm). Pin it by digest. Not used by vcluster.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub image: Option<String>,
@@ -296,8 +296,8 @@ pub struct ChallengeSourceInlinePackageSpecMachinesResources {
 pub enum ChallengeSourceInlinePackageSpecMachinesRuntime {
     #[serde(rename = "pod")]
     Pod,
-    #[serde(rename = "sysbox")]
-    Sysbox,
+    #[serde(rename = "userns")]
+    Userns,
     #[serde(rename = "vcluster")]
     Vcluster,
     #[serde(rename = "vm")]
@@ -389,7 +389,7 @@ pub struct ChallengeSourceInlinePackageSpecTasksCheck {
     /// Shell runs a command on the machine.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub shell: Option<ChallengeSourceInlinePackageSpecTasksCheckShell>,
-    /// SSHLogin attempts an SSH login from the checker (vm and sysbox machines).
+    /// SSHLogin attempts an SSH login from the checker (vm and userns machines).
     #[serde(default, skip_serializing_if = "Option::is_none", rename = "sshLogin")]
     pub ssh_login: Option<ChallengeSourceInlinePackageSpecTasksCheckSshLogin>,
 }
@@ -556,7 +556,7 @@ pub struct ChallengeSourceInlinePackageSpecTasksCheckShell {
     pub user: Option<String>,
 }
 
-/// SSHLogin attempts an SSH login from the checker (vm and sysbox machines).
+/// SSHLogin attempts an SSH login from the checker (vm and userns machines).
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct ChallengeSourceInlinePackageSpecTasksCheckSshLogin {
     /// Expect is whether the login must be allowed or denied.
@@ -571,7 +571,7 @@ pub struct ChallengeSourceInlinePackageSpecTasksCheckSshLogin {
     pub user: String,
 }
 
-/// SSHLogin attempts an SSH login from the checker (vm and sysbox machines).
+/// SSHLogin attempts an SSH login from the checker (vm and userns machines).
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub enum ChallengeSourceInlinePackageSpecTasksCheckSshLoginExpect {
     #[serde(rename = "allowed")]
@@ -580,7 +580,7 @@ pub enum ChallengeSourceInlinePackageSpecTasksCheckSshLoginExpect {
     Denied,
 }
 
-/// SSHLogin attempts an SSH login from the checker (vm and sysbox machines).
+/// SSHLogin attempts an SSH login from the checker (vm and userns machines).
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub enum ChallengeSourceInlinePackageSpecTasksCheckSshLoginMethod {
     #[serde(rename = "key")]
@@ -889,7 +889,7 @@ pub struct ChallengeStatusPackageSpecLifetime {
 /// cluster or virtual machine).
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct ChallengeStatusPackageSpecMachines {
-    /// Image is a container image (pod, sysbox) or a KubeVirt containerDisk
+    /// Image is a container image (pod, userns) or a KubeVirt containerDisk
     /// image (vm). Pin it by digest. Not used by vcluster.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub image: Option<String>,
@@ -936,8 +936,8 @@ pub struct ChallengeStatusPackageSpecMachinesResources {
 pub enum ChallengeStatusPackageSpecMachinesRuntime {
     #[serde(rename = "pod")]
     Pod,
-    #[serde(rename = "sysbox")]
-    Sysbox,
+    #[serde(rename = "userns")]
+    Userns,
     #[serde(rename = "vcluster")]
     Vcluster,
     #[serde(rename = "vm")]
@@ -1029,7 +1029,7 @@ pub struct ChallengeStatusPackageSpecTasksCheck {
     /// Shell runs a command on the machine.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub shell: Option<ChallengeStatusPackageSpecTasksCheckShell>,
-    /// SSHLogin attempts an SSH login from the checker (vm and sysbox machines).
+    /// SSHLogin attempts an SSH login from the checker (vm and userns machines).
     #[serde(default, skip_serializing_if = "Option::is_none", rename = "sshLogin")]
     pub ssh_login: Option<ChallengeStatusPackageSpecTasksCheckSshLogin>,
 }
@@ -1196,7 +1196,7 @@ pub struct ChallengeStatusPackageSpecTasksCheckShell {
     pub user: Option<String>,
 }
 
-/// SSHLogin attempts an SSH login from the checker (vm and sysbox machines).
+/// SSHLogin attempts an SSH login from the checker (vm and userns machines).
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct ChallengeStatusPackageSpecTasksCheckSshLogin {
     /// Expect is whether the login must be allowed or denied.
@@ -1211,7 +1211,7 @@ pub struct ChallengeStatusPackageSpecTasksCheckSshLogin {
     pub user: String,
 }
 
-/// SSHLogin attempts an SSH login from the checker (vm and sysbox machines).
+/// SSHLogin attempts an SSH login from the checker (vm and userns machines).
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub enum ChallengeStatusPackageSpecTasksCheckSshLoginExpect {
     #[serde(rename = "allowed")]
@@ -1220,7 +1220,7 @@ pub enum ChallengeStatusPackageSpecTasksCheckSshLoginExpect {
     Denied,
 }
 
-/// SSHLogin attempts an SSH login from the checker (vm and sysbox machines).
+/// SSHLogin attempts an SSH login from the checker (vm and userns machines).
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub enum ChallengeStatusPackageSpecTasksCheckSshLoginMethod {
     #[serde(rename = "key")]
