@@ -266,7 +266,10 @@ pub struct ChallengeSourceInlinePackageSpecMachines {
     pub kubernetes: Option<String>,
     /// Name of the machine, unique in the package (DNS-1123 label).
     pub name: String,
-    /// Resources requested by the machine.
+    /// Resources requested by the machine (250m CPU and 256Mi by default). For
+    /// a vcluster machine, the budget of the whole virtual cluster: its control
+    /// plane and the student's workloads (2 CPU and 2Gi by default, at least 1
+    /// CPU and 1Gi).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub resources: Option<ChallengeSourceInlinePackageSpecMachinesResources>,
     /// Runtime is the isolation technology the machine runs on.
@@ -281,7 +284,10 @@ pub struct ChallengeSourceInlinePackageSpecMachines {
     pub setup: Option<Vec<String>>,
 }
 
-/// Resources requested by the machine.
+/// Resources requested by the machine (250m CPU and 256Mi by default). For
+/// a vcluster machine, the budget of the whole virtual cluster: its control
+/// plane and the student's workloads (2 CPU and 2Gi by default, at least 1
+/// CPU and 1Gi).
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct ChallengeSourceInlinePackageSpecMachinesResources {
     /// CPU, e.g. "500m" or "1".
@@ -389,7 +395,7 @@ pub struct ChallengeSourceInlinePackageSpecTasksCheck {
     /// Shell runs a command on the machine.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub shell: Option<ChallengeSourceInlinePackageSpecTasksCheckShell>,
-    /// SSHLogin attempts an SSH login from the checker (vm and userns machines).
+    /// SSHLogin attempts an SSH login from the checker (vm machines).
     #[serde(default, skip_serializing_if = "Option::is_none", rename = "sshLogin")]
     pub ssh_login: Option<ChallengeSourceInlinePackageSpecTasksCheckSshLogin>,
 }
@@ -556,7 +562,7 @@ pub struct ChallengeSourceInlinePackageSpecTasksCheckShell {
     pub user: Option<String>,
 }
 
-/// SSHLogin attempts an SSH login from the checker (vm and userns machines).
+/// SSHLogin attempts an SSH login from the checker (vm machines).
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct ChallengeSourceInlinePackageSpecTasksCheckSshLogin {
     /// Expect is whether the login must be allowed or denied.
@@ -571,7 +577,7 @@ pub struct ChallengeSourceInlinePackageSpecTasksCheckSshLogin {
     pub user: String,
 }
 
-/// SSHLogin attempts an SSH login from the checker (vm and userns machines).
+/// SSHLogin attempts an SSH login from the checker (vm machines).
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub enum ChallengeSourceInlinePackageSpecTasksCheckSshLoginExpect {
     #[serde(rename = "allowed")]
@@ -580,7 +586,7 @@ pub enum ChallengeSourceInlinePackageSpecTasksCheckSshLoginExpect {
     Denied,
 }
 
-/// SSHLogin attempts an SSH login from the checker (vm and userns machines).
+/// SSHLogin attempts an SSH login from the checker (vm machines).
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub enum ChallengeSourceInlinePackageSpecTasksCheckSshLoginMethod {
     #[serde(rename = "key")]
@@ -906,7 +912,10 @@ pub struct ChallengeStatusPackageSpecMachines {
     pub kubernetes: Option<String>,
     /// Name of the machine, unique in the package (DNS-1123 label).
     pub name: String,
-    /// Resources requested by the machine.
+    /// Resources requested by the machine (250m CPU and 256Mi by default). For
+    /// a vcluster machine, the budget of the whole virtual cluster: its control
+    /// plane and the student's workloads (2 CPU and 2Gi by default, at least 1
+    /// CPU and 1Gi).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub resources: Option<ChallengeStatusPackageSpecMachinesResources>,
     /// Runtime is the isolation technology the machine runs on.
@@ -921,7 +930,10 @@ pub struct ChallengeStatusPackageSpecMachines {
     pub setup: Option<Vec<String>>,
 }
 
-/// Resources requested by the machine.
+/// Resources requested by the machine (250m CPU and 256Mi by default). For
+/// a vcluster machine, the budget of the whole virtual cluster: its control
+/// plane and the student's workloads (2 CPU and 2Gi by default, at least 1
+/// CPU and 1Gi).
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct ChallengeStatusPackageSpecMachinesResources {
     /// CPU, e.g. "500m" or "1".
@@ -1029,7 +1041,7 @@ pub struct ChallengeStatusPackageSpecTasksCheck {
     /// Shell runs a command on the machine.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub shell: Option<ChallengeStatusPackageSpecTasksCheckShell>,
-    /// SSHLogin attempts an SSH login from the checker (vm and userns machines).
+    /// SSHLogin attempts an SSH login from the checker (vm machines).
     #[serde(default, skip_serializing_if = "Option::is_none", rename = "sshLogin")]
     pub ssh_login: Option<ChallengeStatusPackageSpecTasksCheckSshLogin>,
 }
@@ -1196,7 +1208,7 @@ pub struct ChallengeStatusPackageSpecTasksCheckShell {
     pub user: Option<String>,
 }
 
-/// SSHLogin attempts an SSH login from the checker (vm and userns machines).
+/// SSHLogin attempts an SSH login from the checker (vm machines).
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct ChallengeStatusPackageSpecTasksCheckSshLogin {
     /// Expect is whether the login must be allowed or denied.
@@ -1211,7 +1223,7 @@ pub struct ChallengeStatusPackageSpecTasksCheckSshLogin {
     pub user: String,
 }
 
-/// SSHLogin attempts an SSH login from the checker (vm and userns machines).
+/// SSHLogin attempts an SSH login from the checker (vm machines).
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub enum ChallengeStatusPackageSpecTasksCheckSshLoginExpect {
     #[serde(rename = "allowed")]
@@ -1220,7 +1232,7 @@ pub enum ChallengeStatusPackageSpecTasksCheckSshLoginExpect {
     Denied,
 }
 
-/// SSHLogin attempts an SSH login from the checker (vm and userns machines).
+/// SSHLogin attempts an SSH login from the checker (vm machines).
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub enum ChallengeStatusPackageSpecTasksCheckSshLoginMethod {
     #[serde(rename = "key")]
