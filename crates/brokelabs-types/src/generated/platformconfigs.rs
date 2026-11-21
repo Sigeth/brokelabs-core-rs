@@ -49,6 +49,15 @@ pub struct PlatformConfigSpec {
         rename = "allowedRuntimes"
     )]
     pub allowed_runtimes: Option<Vec<String>>,
+    /// InstanceCapacity caps what admitted instances may reserve together,
+    /// below the capacity detected on the nodes: for a cluster shared with
+    /// other workloads. Empty fields set no cap.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "instanceCapacity"
+    )]
+    pub instance_capacity: Option<PlatformConfigInstanceCapacity>,
     /// MaxInstanceLifetime caps the lifetime of any instance, extensions included.
     #[serde(
         default,
@@ -83,6 +92,22 @@ pub enum PlatformConfigAllowedEgress {
     Internet,
     #[serde(rename = "allowlist")]
     Allowlist,
+}
+
+/// InstanceCapacity caps what admitted instances may reserve together,
+/// below the capacity detected on the nodes: for a cluster shared with
+/// other workloads. Empty fields set no cap.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+pub struct PlatformConfigInstanceCapacity {
+    /// CPU reserved by admitted instances.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub cpu: Option<IntOrString>,
+    /// Instances admitted at once.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub instances: Option<i32>,
+    /// Memory reserved by admitted instances.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub memory: Option<IntOrString>,
 }
 
 /// MaxInstanceResources caps the CPU and memory the machines of one
@@ -124,16 +149,41 @@ pub struct PlatformConfigStatus {
 /// Capacity of the cluster for instances.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct PlatformConfigStatusCapacity {
+    /// AdmittedInstances holds capacity (provisioning or ready).
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "admittedInstances"
+    )]
+    pub admitted_instances: Option<i32>,
     /// AllocatableCPU on the nodes that can run instances.
     #[serde(rename = "allocatableCPU")]
     pub allocatable_cpu: IntOrString,
     /// AllocatableMemory on the nodes that can run instances.
     #[serde(rename = "allocatableMemory")]
     pub allocatable_memory: IntOrString,
-    /// RequestedCPU by running instances.
+    /// OtherCPU requested on those nodes by pods outside instances (the
+    /// platform, the system, other workloads).
+    #[serde(default, skip_serializing_if = "Option::is_none", rename = "otherCPU")]
+    pub other_cpu: Option<IntOrString>,
+    /// OtherMemory requested on those nodes by pods outside instances.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "otherMemory"
+    )]
+    pub other_memory: Option<IntOrString>,
+    /// QueuedInstances wait for their admission.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "queuedInstances"
+    )]
+    pub queued_instances: Option<i32>,
+    /// RequestedCPU reserved by admitted instances (their namespace quotas).
     #[serde(rename = "requestedCPU")]
     pub requested_cpu: IntOrString,
-    /// RequestedMemory by running instances.
+    /// RequestedMemory reserved by admitted instances.
     #[serde(rename = "requestedMemory")]
     pub requested_memory: IntOrString,
 }

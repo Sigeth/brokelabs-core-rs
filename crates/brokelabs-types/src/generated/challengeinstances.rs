@@ -27,13 +27,19 @@ pub struct ChallengeInstanceSpec {
     /// Challenge is the name of the installed Challenge.
     pub challenge: String,
     /// ExpiresAt is when the instance is torn down. The platform moves it
-    /// forward to extend the instance. Defaults to creation time plus the
+    /// forward to extend the instance. Defaults to the admission time plus the
     /// challenge's default lifetime; capped by the challenge's and the
-    /// platform's maximum lifetime.
+    /// platform's maximum lifetime, counted from the admission.
     #[serde(default, skip_serializing_if = "Option::is_none", rename = "expiresAt")]
     pub expires_at: Option<String>,
     /// Owner of the instance.
     pub owner: ChallengeInstanceOwner,
+    /// Quotas are the groups the instance counts against, such as the
+    /// classrooms of its owner. The operator admits it only while each of
+    /// them has fewer admitted instances than its limit. The platform updates
+    /// the limits of queued instances when they change.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub quotas: Option<Vec<ChallengeInstanceQuotas>>,
 }
 
 /// Owner of the instance.
@@ -51,9 +57,33 @@ pub struct ChallengeInstanceOwner {
     pub user_id: String,
 }
 
+/// InstanceQuota caps the instances of a group admitted at once.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+pub struct ChallengeInstanceQuotas {
+    /// DisplayName of the group, in the message of queued instances.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "displayName"
+    )]
+    pub display_name: Option<String>,
+    /// Limit is the most instances of the group admitted at once.
+    pub limit: i32,
+    /// Name identifies the group, e.g. "classroom-<id>".
+    pub name: String,
+}
+
 /// ChallengeInstanceStatus reports the state of an instance.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct ChallengeInstanceStatus {
+    /// AdmittedAt is when the operator reserved capacity for the instance.
+    /// Its lifetime starts there, not while it waits in the queue.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "admittedAt"
+    )]
+    pub admitted_at: Option<String>,
     /// ChallengeDigest is the package digest the instance was created from.
     /// It does not change when the challenge is updated.
     #[serde(
@@ -87,6 +117,15 @@ pub struct ChallengeInstanceStatus {
     /// Phase of the instance.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub phase: Option<ChallengeInstanceStatusPhase>,
+    /// QueuePosition of a queued instance waiting for capacity: 1 is admitted
+    /// next. Zero when the instance is not waiting for capacity (admitted,
+    /// or held by one of its quotas).
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "queuePosition"
+    )]
+    pub queue_position: Option<i32>,
     /// ReadyAt is when the instance first became ready.
     #[serde(default, skip_serializing_if = "Option::is_none", rename = "readyAt")]
     pub ready_at: Option<String>,

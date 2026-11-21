@@ -99,6 +99,7 @@ mod tests {
                     display_name: Some("alice".into()),
                 },
                 expires_at: None,
+                quotas: None,
             },
         );
         let json = serde_json::to_value(&instance).unwrap();
