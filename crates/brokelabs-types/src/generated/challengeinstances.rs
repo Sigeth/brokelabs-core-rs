@@ -36,8 +36,9 @@ pub struct ChallengeInstanceSpec {
     pub owner: ChallengeInstanceOwner,
     /// Quotas are the groups the instance counts against, such as the
     /// classrooms of its owner. The operator admits it only while each of
-    /// them has fewer admitted instances than its limit. The platform updates
-    /// the limits of queued instances when they change.
+    /// them has fewer admitted instances than its limit. The platform keeps
+    /// them up to date (limits and memberships change); updating the quotas
+    /// of an admitted instance only changes how it is counted.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub quotas: Option<Vec<ChallengeInstanceQuotas>>,
 }
